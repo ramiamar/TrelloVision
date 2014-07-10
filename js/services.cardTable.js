@@ -63,7 +63,7 @@ TrelloVisionApp.factory('CardTableService', function() {
 				return true;
 			};
 		};
-		
+
 		scope.onSort = function(sortProp) {
 			if ( scope.sortProp == sortProp ) {
 				if ( scope.sortRev ) {
@@ -157,6 +157,7 @@ function buildCardTable(scope) {
 		c.checklists = [];
 		c.tags = '';
 		c.tagCount = 0;
+		c.extraData = null;
 
 		for ( li in card.labels ) {
 			var lbl = card.labels[li];
@@ -190,6 +191,11 @@ function buildCardTable(scope) {
 			c.tags += '#'+match[3]+' ';
 			c.tagCount++;
 		}
+
+		match=null;
+		if (match = ExtraDataPattern.exec(c.desc)) {
+			c.extraData = JSON.parse(match[1]);
+		}
 	}
 }
 
@@ -201,7 +207,7 @@ function buildCardTableCsv(scope) {
 
 	csv += '"ID","Short ID","Board ID","Board Name","List ID","List Name","Name","Description","URL",'+
 		'"Last Updated","Due Date","Green Label","Yellow Label","Orange Label","Red Label",'+
-		'"Purple Label","Blue Label","Member Count","Comment Count","Vote Count","Checklists"';
+		'"Purple Label","Blue Label","Member Count","Comment Count","Vote Count","Checklists","Estimated Time"';
 
 	for ( var mi in table.board.members ) {
 		var mem = table.board.members[mi];
@@ -244,7 +250,14 @@ function buildCardTableCsv(scope) {
 			csvChecks += (csvChecks.length == 0 ? '' : '; ')+list.name+' ('+list.progress+')';
 		}
 
-		csv += '"'+csvChecks+'"';
+		csv += '"'+csvChecks+'",';
+
+		if (card.extraData && card.extraData["estimated"]) {
+			csv += '"'+card.extraData["estimated"]+'"';
+		}
+		else {
+			csv += ","
+		}
 
 		for ( mi in table.board.members ) {
 			var mem = table.board.members[mi];

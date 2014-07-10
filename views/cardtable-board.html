@@ -3,7 +3,7 @@
 </div>
 
 <div class="row" ng-show="model.ready">
-	
+
 	<div class="large-9 small-6 columns">
 		<h3>
 			{{model.table.board.name}}
@@ -20,7 +20,7 @@
 			</a>
 		</p>
 	</div>
-	
+
 	<div class="large-3 small-6 columns">
 		<br/>
 		<h5>
@@ -31,40 +31,40 @@
 			<span style="font-size: 0.8em;">{{model.table.labelMap[color]}}</span>
 		</div>
 	</div>
-	
+
 </div>
 
 <div class="row" ng-show="model.ready">
-	
+
 	<hr/>
-	
+
 	<div class="large-2 columns">
 		<h5>
 			Table Filters:
 		</h5>
 	</div>
-	
+
 	<div class="large-2 columns">
 		<input type="text" placeholder="List Name" ng-model="search.list">
 	</div>
-	
+
 	<div class="large-2 columns">
 		<input type="text" placeholder="Card Name" ng-model="search.name">
 	</div>
-	
+
 	<div class="large-2 columns">
 		<input type="text" placeholder="Tag Name" ng-model="search.tag">
 	</div>
-	
+
 	<div class="large-4 columns">
 	</div>
-	
+
 	<hr/>
-	
+
 </div>
 
 <div class="row" ng-show="model.ready">
-	
+
 	<div class="large-12 small-12 columns">
 		<h5>
 			Cards for the "{{model.table.board.name}}" Board
@@ -89,6 +89,7 @@
 					<th title="Tag Count"><a href="" ng-click="onSort('-tagCount');">#T</a></th>
 					<th title="Due Date"><a href="" ng-click="onSort('dueRaw');">Due</a></th>
 					<th title="Checklists">Chk</th>
+					<th title="Estimated Time">Est</th>
 					<th ng-repeat="mem in model.table.members" title="{{mem.fullName}} ({{mem.username}})">
 						<a href="" ng-click="onSort('member'+mem.id);">{{mem.initials}}</a>
 					</th>
@@ -113,7 +114,7 @@
 						{{card.updated}}
 					</td>
 					<td ng-repeat="color in model.table.labelColors">
-						<span ng-show="card[color+'Label'] != null" class="swatch16" 
+						<span ng-show="card[color+'Label'] != null" class="swatch16"
 						      style="background-color: {{color}}; width:10px;"
 							  title="{{card[color+'Label']}}"></span>
 					</td>
@@ -136,6 +137,9 @@
 						<span ng-repeat="list in card.checklists" title="{{list.name}}">
 						    {{list.progress}}
 						</span>
+					</td>
+					<td>
+						{{card.extraData.estimated}}
 					</td>
 					<td ng-repeat="mem in model.table.members">
 						<span ng-show="card['member'+mem.id] != null">X</span>
